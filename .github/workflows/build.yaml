@@ -25,7 +25,11 @@ jobs:
         id: update_version
         run: |
           VERSION=$(python setup.py --version)
-          # TODO: Implement a version bumping strategy
+          echo "Current version: $VERSION"
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION" # Split the version into MAJOR, MINOR, PATCH
+          PATCH=$((PATCH + 1)) # Increment the PATCH version
+          NEXT_VERSION="$MAJOR.$MINOR.$PATCH" # Create the new version
+          sed -i "s/version = '.*'/version = '$NEXT_VERSION'/g" setup.py # Update the version in setup.py
           echo "VERSION=$NEXT_VERSION" >> $GITHUB_OUTPUT
 
       - name: Get version info
