@@ -19,3 +19,6 @@ RUN pip install .
 
 # Set the default command to run the CLI
 ENTRYPOINT ["connectivity_tool"]
+
+# Allow the container to accept arguments passed in the docker run command
+CMD []
