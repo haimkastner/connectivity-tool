@@ -51,7 +51,7 @@ def main_function():
 
     parser.add_argument('-s', '--store',
                         default='./store_data/conn_tool_store.jsonl',
-                        help='Path to the connectivity tool store file')
+                        help='Path to the connectivity tool store file, in case of a docker use, make sure to mount the volume')
 
     parser.add_argument('-g', '--generate-path',
                         help='Path to a directory to generate the suite file example (see --type-format options)')
