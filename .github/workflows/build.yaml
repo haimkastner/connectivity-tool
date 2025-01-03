@@ -7,8 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest # 🌐 Use the latest Ubuntu image for this job
-    env:
-      BUILD_JOB_ID: ${{ github.run_id }} # GitHub run ID
 
     steps:
       # Step 1️⃣: Checkout the repository code 📂
@@ -23,6 +21,8 @@ jobs:
 
       # Step 3️⃣: Install dependencies and build 🔨
       - name: 🏗️ Build Project
+        env:
+          BUILD_JOB_ID: ${{ github.run_id }} # GitHub run ID
         run: |
           echo "Installing dependencies 📦..."
           pip install -r requirements.txt
@@ -49,6 +49,9 @@ jobs:
           echo "Updating setup.py with version: $NEXT_VERSION ✨..."
           sed -i "s/version = '.*'/version = '$NEXT_VERSION'/g" setup.py
           echo "VERSION=$NEXT_VERSION" >> $GITHUB_OUTPUT
+          README_CONTENT=$(cat ./README.md)
+          echo "README_CONTENT=$README_CONTENT" >> $GITHUB_ENV
+          
 
       # Step 6️⃣: Retrieve version info for release notes 📜
       - name: 📝 Get Version Info
@@ -71,6 +74,7 @@ jobs:
         if: github.ref == 'refs/heads/main' # Ensure publishing happens only on the main branch
         env:
           API_KEY: '${{ secrets.PIP_API_KEY }}' # PyPI token for authentication 🔑
+          BUILD_JOB_ID: ${{ github.run_id }} # GitHub run ID
         run: |
           echo "Publishing package to PyPI 🐍..."
           pip install twine
@@ -87,11 +91,13 @@ jobs:
       - name: 📦 Build and Push Docker Image
         if: github.ref == 'refs/heads/main' # Ensure publishing happens only on the main branch
         uses: docker/build-push-action@v6
+        env:
+          BUILD_JOB_ID: ${{ github.run_id }} # GitHub run ID
         with:
           push: true
           context: .
           labels: |
-            org.opencontainers.image.description=$(cat README.md)
+            description=${{ steps.update_version.outputs.README_CONTENT }}
           tags: |
             haimkastner/connectivity-tool:${{ steps.update_version.outputs.VERSION }}
             haimkastner/connectivity-tool:latest
