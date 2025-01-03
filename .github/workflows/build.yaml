@@ -50,7 +50,7 @@ jobs:
           sed -i "s/version = '.*'/version = '$NEXT_VERSION'/g" setup.py
           echo "VERSION=$NEXT_VERSION" >> $GITHUB_OUTPUT
           README_CONTENT=$(cat ./README.md)
-          echo "README_CONTENT=$README_CONTENT" >> $GITHUB_ENV
+          echo "README_CONTENT=$README_CONTENT" >> $GITHUB_OUTPUT
           
 
       # Step 6️⃣: Retrieve version info for release notes 📜
