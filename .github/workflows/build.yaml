@@ -49,8 +49,7 @@ jobs:
           echo "Updating setup.py with version: $NEXT_VERSION ✨..."
           sed -i "s/version = '.*'/version = '$NEXT_VERSION'/g" setup.py
           echo "VERSION=$NEXT_VERSION" >> $GITHUB_OUTPUT
-          README_CONTENT=$(cat ./README.md)
-          echo "README_CONTENT=$README_CONTENT" >> $GITHUB_OUTPUT
+          README_CONTENT=
           
 
       # Step 6️⃣: Retrieve version info for release notes 📜
@@ -97,7 +96,7 @@ jobs:
           push: true
           context: .
           labels: |
-            description=${{ steps.update_version.outputs.README_CONTENT }}
+            description=${{ $(cat ./README.md) }}
           tags: |
             haimkastner/connectivity-tool:${{ steps.update_version.outputs.VERSION }}
             haimkastner/connectivity-tool:latest
