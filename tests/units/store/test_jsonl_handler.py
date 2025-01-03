@@ -1,7 +1,7 @@
 import os
 import unittest
 from connectivity_tool_cli.store.jsonl_handler import JsonLineHandler
-from tests.test_unit_global import ConnTestCase
+from tests.test_unit_global import ConnTestCase, test_dir
 
 
 class JsonlHandlerTestCase(ConnTestCase):
@@ -10,7 +10,7 @@ class JsonlHandlerTestCase(ConnTestCase):
         """
         Create a temporary file for testing.
         """
-        self.test_file = os.path.join(self.test_dir, "test.jsonl")
+        self.test_file = str(test_dir / "test.jsonl")
         if os.path.exists(self.test_file):
             os.remove(self.test_file)
         os.makedirs(os.path.dirname(self.test_file), exist_ok=True)
