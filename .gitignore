@@ -169,3 +169,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+generated_build/
+store_data/
+test_dist/
+temp/
