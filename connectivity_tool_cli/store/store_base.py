@@ -25,3 +25,12 @@ class StoreBase(ABC):
         :return: The last result from the store, or None if no results are available.
         """
         pass
+
+    @abstractmethod
+    def get_last_results(self, last_lines: int | None) -> [ConnResult]:
+        """
+        Retrieve last result from the store, set None to get all results.
+
+        :return: The last result from the store, or None if no results are available.
+        """
+        pass

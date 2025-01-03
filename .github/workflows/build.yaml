@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest # 🌐 Use the latest Ubuntu image for this job
+    env:
+      BUILD_JOB_ID: ${{ github.run_id }} # GitHub run ID
 
     steps:
       # Step 1️⃣: Checkout the repository code 📂
@@ -73,7 +75,7 @@ jobs:
           password: ${{ secrets.DOCKER_API_KEY }} # DockerHub API key (used as password)
 
       - name: 📦 Build and Push Docker Image
-#        if: github.ref == 'refs/heads/main' # Only publish Docker images on main branch
+        #        if: github.ref == 'refs/heads/main' # Only publish Docker images on main branch
         uses: docker/build-push-action@v6
         with:
           push: true
