@@ -67,7 +67,7 @@ def main_function():
 
     store_path = args.store
     if info:
-        print('Connectivity Tool CLI by Haim Kastner hello@haim-kastner.com')
+        print('Connectivity Tool CLI by Haim Kastner <hello@haim-kastner.com>')
         print(f'    {print_cli_build_info()}')
         print()
         return
@@ -78,10 +78,8 @@ def main_function():
         print(f'    {print_cli_build_info()}')
 
     if args.generate_path:
-        generate_example_suite_file(args.generate_path, args.type_format)
+        generate_example_suite_file(args.generate_path, SuiteFormats(args.type_format))
         return
-
-
 
     try:
         # Init the store
@@ -115,7 +113,7 @@ def main_function():
             # Log the result
             StoreManager.store().log_results(result)
             logger.info(f'Connectivity check result: {result.to_dics()}')
-
+            print(f'''(Test #{inx + 1}) {result.asset} {result.protocol.value} connectivity test {'succeeded' if result.success else "failed"}''')
     except Exception as e:
         logger.critical(f'Fatal error during connectivity check {str(e)}')
 

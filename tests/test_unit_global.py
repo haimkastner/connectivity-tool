@@ -1,9 +1,10 @@
 import unittest
+from pathlib import Path
+
+# A class member var to hold the test file name
+test_dir = Path("test_dist")
 
 class ConnTestCase(unittest.TestCase):
-
-    # A class member var to hold the test file name
-    test_dir = "test_dist"
 
     @classmethod
     def setUpClass(self):

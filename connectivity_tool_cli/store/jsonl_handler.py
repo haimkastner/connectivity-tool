@@ -11,7 +11,7 @@ class JsonLineHandler:
         """
         self.file_url = file_url
         if os.path.exists(self.file_url):
-            return # File already exists
+            return  # File already exists
         os.makedirs(os.path.dirname(self.file_url), exist_ok=True)
         # Ensure the file is empty before each test
         with open(self.file_url, "w"):
