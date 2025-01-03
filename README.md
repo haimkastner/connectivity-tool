@@ -32,6 +32,7 @@ connectivity_tool_cli --info
 ```
 The output should be similar to:
 ```text
+TODO
 ```
 
 Connectivity Tool Cli allows to print verbose logs.
