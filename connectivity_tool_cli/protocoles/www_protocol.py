@@ -63,7 +63,7 @@ class WWWProtocol(Protocol, ABC):
                 curr_results.success = False
                 curr_results.error_message = f"URL returned status code {response.status_code}"
                 logger.error(f"URL returned status code {response.status_code}. Latency: {latency.to_string()}")
-        except requests.exceptions.RequestException as e:
+        except Exception as e:
             curr_results.success = False
             logger.error(f"Error accessing URL: {e}")
             curr_results.error_message = str(e)
@@ -124,7 +124,7 @@ class WWWProtocol(Protocol, ABC):
         try:
             if conn_test_suite.test_upload_bandwidth:
                 results.upload_bandwidth = self.__check_upload_bandwidth(conn_test_suite.url)
-        except requests.exceptions.RequestException as e:
+        except Exception as e:
             results.success = False
             logger.error(f"Error testing upload bandwidth: {e}")
             results.error_message = str(e)
@@ -132,7 +132,7 @@ class WWWProtocol(Protocol, ABC):
         try:
             if conn_test_suite.test_download_bandwidth:
                 results.download_bandwidth = self.__check_download_bandwidth(conn_test_suite.url)
-        except requests.exceptions.RequestException as e:
+        except Exception as e:
             results.success = False
             logger.error(f"Error testing download bandwidth: {e}")
             results.error_message = str(e)

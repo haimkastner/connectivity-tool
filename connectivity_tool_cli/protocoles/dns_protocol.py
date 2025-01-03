@@ -30,7 +30,7 @@ class DNSProtocol(Protocol, ABC):
         try:
             ip_address = socket.gethostbyname(conn_test_suite.domain)
             logger.info(f'Successfully resolved domain "{conn_test_suite.domain}" to IP address "{ip_address}" using DNS')
-        except requests.exceptions.RequestException as e:
+        except Exception as e:
             results.success = False
             results.error_message = str(e)
             logger.error(f'Error resolving DNS domain "{conn_test_suite.domain}" to IP address: {e} ')
