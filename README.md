@@ -3,10 +3,11 @@
 ![Latest Release](https://img.shields.io/github/v/release/haimkastner/connectivity-tool)
 [![PyPI version](https://img.shields.io/pypi/v/connectivity_tool.svg?style=plastic)](https://pypi.org/project/connectivity-tool/)
 [![License](https://img.shields.io/github/license/haimkastner/connectivity-tool.svg?style=plastic)](https://github.com/haimkastner/connectivity-tool/blob/main/LICENSE)
+[![DockerHub](https://img.shields.io/badge/DockerHub-Connectivity--Tool-blue)](https://hub.docker.com/r/haimkastner/connectivity-tool)
 
 <!-- 
 Coming soon :)
-
+![Docker Pulls](https://img.shields.io/docker/pulls/haimkastner/connectivity-tool)
 [![GitHub stars](https://img.shields.io/github/stars/haimkastner/connectivity-tool.svg?style=social&label=Star)](https://github.com/haimkastner/connectivity-tool/stargazers) -->
 
 [![connectivity-tool](https://github.com/haimkastner/connectivity-tool/actions/workflows/build.yaml/badge.svg?branch=main)](https://github.com/haimkastner/connectivity-tool/actions/workflows/build.yaml)

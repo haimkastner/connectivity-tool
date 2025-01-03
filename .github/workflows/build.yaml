@@ -89,10 +89,12 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
+          context: .
+          labels: |
+            org.opencontainers.image.description=$(cat README.md)
           tags: |
             haimkastner/connectivity-tool:${{ steps.update_version.outputs.VERSION }}
             haimkastner/connectivity-tool:latest
-          context: .
 
       # Step 🔟: Create a GitHub release 🌟
       - name: 🏷️ Create Release
