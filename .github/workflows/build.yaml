@@ -74,7 +74,7 @@ jobs:
           file: ./Dockerfile # Path to the Dockerfile
           push: true # Push the built image to DockerHub
           tags: |
-            haimkastner/connectivity-tool:${{ steps.update_version.outputs.VERSION }}
+            haimkastner/connectivity-tool:1.0.1
             haimkastner/connectivity-tool:latest
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }} # DockerHub username
