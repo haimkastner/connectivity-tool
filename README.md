@@ -21,14 +21,14 @@ pip install connectivity_tool
 
 Before starting, run the help command to understand how to pass the operation's parameters and payload with all the available options.
 ```bash
-connectivity_tool_cli --help
+connectivity_tool --help
 ```
 
 ## 🔍 Troubleshooting and logging
 
 The full version and build info of the SDK is available by `--info` see example:
 ```bash
-connectivity_tool_cli --info
+connectivity_tool --info
 ```
 The output should be similar to:
 ```text
@@ -38,7 +38,7 @@ TODO
 Connectivity Tool Cli allows to print verbose logs.
 
 ```bash
-connectivity_tool_cli --verbos
+connectivity_tool --verbos
 ```
 
 ## 🐞 Report Bug
