@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 import os
 from datetime import datetime
 
-version = '1.0.1'
+version = '1.0.3'
 
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text(encoding='utf-8')
@@ -47,7 +47,7 @@ setup_kwargs = {
     'package_data': package_data,
     'data_files': [('', ['requirements.txt'])],
     'install_requires': requirements,
-    'python_requires': '>=3.8,<4.0',
+    'python_requires': '>=3.10,<4.0',
     'entry_points': {
         'console_scripts': [
             'connectivity_tool=connectivity_tool_cli.index:main_function',
