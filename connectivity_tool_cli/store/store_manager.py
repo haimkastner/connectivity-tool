@@ -10,7 +10,7 @@ class StoreManager:
 
     def __init__(self, path: str):
         if StoreManager._instance is not None:
-            raise RuntimeError("StoreManager is already initialized. Use `JsonlStoreManager.get_instance()`.")
+            raise RuntimeError("StoreManager is already initialized. Use `JsonlStoreManager.store()`.")
         StoreManager._instance = JsonlStore(path)
 
     @classmethod

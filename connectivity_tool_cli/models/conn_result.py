@@ -4,6 +4,7 @@ from datetime import datetime
 
 from unitsnet_py.units.bit_rate import BitRate, BitRateUnits
 from unitsnet_py.units.duration import Duration, DurationUnits
+from connectivity_tool_cli.common.interfances import Protocols
 
 
 class ConnResult(ABC):
@@ -55,7 +56,7 @@ class ConnResult(ABC):
     @staticmethod
     def from_dict(data: dict):
         result = ConnResult()
-        result.protocol = data['protocol']
+        result.protocol = Protocols(data['protocol'])
         result.asset = data['asset']
         result.success = data['success']
         result.timestamp = data['timestamp']

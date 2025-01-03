@@ -4,14 +4,12 @@ from setuptools import find_packages, setup
 import os
 from datetime import datetime
 
-version = '1.0.1'
+version = '1.0.4'
 
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text(encoding='utf-8')
 
-
-REQUIREMENTS_FILE = os.environ.get('REQUIREMENTS_FILE', 'requirements.txt')
-with open((this_directory / REQUIREMENTS_FILE)) as f:
+with open((this_directory / 'requirements.txt')) as f:
     requirements = f.read().splitlines()
 
 cli_build_module = f'''
@@ -47,7 +45,7 @@ setup_kwargs = {
     'package_data': package_data,
     'data_files': [('', ['requirements.txt'])],
     'install_requires': requirements,
-    'python_requires': '>=3.8,<4.0',
+    'python_requires': '>=3.10,<4.0',
     'entry_points': {
         'console_scripts': [
             'connectivity_tool=connectivity_tool_cli.index:main_function',

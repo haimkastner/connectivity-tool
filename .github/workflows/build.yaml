@@ -1,68 +1,109 @@
 name: connectivity-tool
 
-on: [push, workflow_dispatch]
+on:
+  # Trigger workflow on push or manual dispatch 🎯
+  [ push, workflow_dispatch ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # 🌐 Use the latest Ubuntu image for this job
+    env:
+      BUILD_JOB_ID: ${{ github.run_id }} # GitHub run ID
 
     steps:
+      # Step 1️⃣: Checkout the repository code 📂
       - uses: actions/checkout@v4
+        name: 🛠️ Checkout Code
+
+      # Step 2️⃣: Set up Python environment 🐍
       - uses: actions/setup-python@v5
+        name: 🔧 Set Up Python
         with:
-          python-version: '3.10'
-      - name: Build 🐍
+          python-version: '3.10' # Specify Python version 🔢
+
+      # Step 3️⃣: Install dependencies and build 🔨
+      - name: 🏗️ Build Project
         run: |
+          echo "Installing dependencies 📦..."
           pip install -r requirements.txt
+          echo "Installing the connectivity tool 🚀..."
           pip install .
 
-      - name: Test units
+      # Step 4️⃣: Run unit tests 🧪
+      - name: 🧹 Test Units
         run: |
+          echo "Running tests 🔍..."
           python -m unittest discover tests
 
-      - name: Bump version
-        if: github.ref == 'refs/heads/main'
+      # Step 5️⃣: Bump the version automatically 🔄
+      - name: 🔼 Bump Version
+        if: github.ref == 'refs/heads/main' # Run only on the main branch
         id: update_version
         run: |
+          echo "Fetching the current version 🔎..."
           VERSION=$(python setup.py --version)
           echo "Current version: $VERSION"
-          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION" # Split the version into MAJOR, MINOR, PATCH
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION" # Split version into parts
           PATCH=$((PATCH + 1)) # Increment the PATCH version
-          NEXT_VERSION="$MAJOR.$MINOR.$PATCH" # Create the new version
-          sed -i "s/version = '.*'/version = '$NEXT_VERSION'/g" setup.py # Update the version in setup.py
+          NEXT_VERSION="$MAJOR.$MINOR.$PATCH" # Form the next version
+          echo "Updating setup.py with version: $NEXT_VERSION ✨..."
+          sed -i "s/version = '.*'/version = '$NEXT_VERSION'/g" setup.py
           echo "VERSION=$NEXT_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Get version info
+      # Step 6️⃣: Retrieve version info for release notes 📜
+      - name: 📝 Get Version Info
         id: version_info
         run: |
+          echo "Extracting commit message for release notes 🗒️..."
           body=$(git log -1 --pretty=%B | sed -n '1p')
           echo "BODY=$body" >> $GITHUB_OUTPUT
 
-      - name: Commit and push version
+      # Step 7️⃣: Commit and push the new version 🖊️
+      - name: 💾 Commit and Push Version
         if: github.ref == 'refs/heads/main'
         uses: devops-infra/action-commit-push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           commit_message: Update to version ${{ steps.update_version.outputs.VERSION }} [skip-ci]
 
-      - name: Publish CLI 📦 to PyPI
-        if: github.ref == 'refs/heads/main'
+      # Step 8️⃣: Publish to PyPI 📦
+      - name: 🛫 Publish CLI to PyPI
+        if: github.ref == 'refs/heads/main' # Ensure publishing happens only on the main branch
         env:
-          API_KEY: '${{ secrets.PIP_API_KEY }}'
+          API_KEY: '${{ secrets.PIP_API_KEY }}' # PyPI token for authentication 🔑
         run: |
+          echo "Publishing package to PyPI 🐍..."
           pip install twine
           python setup.py sdist
           twine upload dist/* -u __token__ -p $API_KEY
 
-      - name: Create Release
+      # Step 9️⃣: Build and Publish Docker Image 🐳
+      - name: Login to Docker Hub
+        if: github.ref == 'refs/heads/main' # Ensure publishing happens only on the main branch
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}  # DockerHub username
+          password: ${{ secrets.DOCKER_API_KEY }} # DockerHub API key (used as password)
+      - name: 📦 Build and Push Docker Image
+        if: github.ref == 'refs/heads/main' # Ensure publishing happens only on the main branch
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: |
+            haimkastner/connectivity-tool:${{ steps.update_version.outputs.VERSION }}
+            haimkastner/connectivity-tool:latest
+          context: .
+
+      # Step 🔟: Create a GitHub release 🌟
+      - name: 🏷️ Create Release
         if: github.ref == 'refs/heads/main'
         id: create_release
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.update_version.outputs.VERSION }}
+          tag_name: ${{ steps.update_version.outputs.VERSION }} # Tag with the new version
           name: CLI Version ${{ steps.update_version.outputs.VERSION }}
-          body: ${{  steps.version_info.outputs.BODY }}
+          body: ${{ steps.version_info.outputs.BODY }}
           draft: false
-          prerelease: false
+          prerelease: false # Mark as stable release 🎉

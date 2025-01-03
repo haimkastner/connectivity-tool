@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
-from unitsnet_py.units.bit_rate import BitRate
-from unitsnet_py.units.duration import Duration
+from unitsnet_py.units.bit_rate import BitRate, BitRateUnits
+from unitsnet_py.units.duration import Duration, DurationUnits
 
 from connectivity_tool_cli.common.interfances import Protocols
 from connectivity_tool_cli.models.conn_result import ConnResult
@@ -120,6 +120,119 @@ class TestJsonlStore(ConnTestCase):
 
         # Assert that the result is None
         self.assertIsNone(last_result)
+
+    # New test for get_last_results
+    def test_get_last_results_no_limit(self):
+        """ Test get_last_results without limit (last_lines=None) """
+        # Prepare mock data to return
+        mock_data = [
+            {
+                "protocol": Protocols.HTTP.value,  # Protocol in enum value
+                "asset": "asset1",
+                "success": True,
+                "alert": False,
+                "timestamp": "2025-01-01T00:00:00",
+                "deviation": None,
+                "error_message": None,
+                "latency": Duration.from_seconds(50).to_dto_json(DurationUnits.Second),  # Example latency in seconds
+                "upload_bandwidth": BitRate.from_bits_per_second(1000).to_dto_json(BitRateUnits.MegabitPerSecond),  # Example upload bandwidth
+                "download_bandwidth": BitRate.from_bits_per_second(2000).to_dto_json(BitRateUnits.MegabitPerSecond),  # Example download bandwidth
+            },
+            {
+                "protocol": Protocols.HTTP.value,  # Protocol in enum value
+                "asset": "asset2",
+                "success": False,
+                "alert": True,
+                "timestamp": "2025-01-01T00:00:00",
+                "deviation": Duration.from_seconds(10).to_dto_json(DurationUnits.Second),  # Example deviation
+                "error_message": "Timeout error",
+                "latency": Duration.from_seconds(60).to_dto_json(DurationUnits.Second),  # Example latency in seconds
+                "upload_bandwidth": BitRate.from_bits_per_second(500).to_dto_json(BitRateUnits.MegabitPerSecond),  # Example upload bandwidth
+                "download_bandwidth": BitRate.from_bits_per_second(1000).to_dto_json(BitRateUnits.MegabitPerSecond),  # Example download bandwidth
+            },
+            {
+                "protocol": Protocols.HTTPS.value,  # Protocol in enum value
+                "asset": "asset1",
+                "success": True,
+                "alert": False,
+                "timestamp": "2025-01-01T00:00:00",
+                "deviation": None,
+                "error_message": None,
+                "latency": Duration.from_seconds(40).to_dto_json(DurationUnits.Second),  # Example latency in seconds
+                "upload_bandwidth": BitRate.from_bits_per_second(2000).to_dto_json(BitRateUnits.MegabitPerSecond),  # Example upload bandwidth
+                "download_bandwidth": BitRate.from_bits_per_second(4000).to_dto_json(BitRateUnits.MegabitPerSecond),  # Example download bandwidth
+            }
+        ]
+        self.mock_jsonl_handler.iterate.return_value = mock_data
+
+        # Call get_last_results with no limit
+        results = self.store.get_last_results(None)
+
+        # Assert that all results are returned
+        self.assertEqual(len(results), 3)
+
+    def test_get_last_results_with_limit(self):
+        """ Test get_last_results with limit """
+        # Prepare mock data to return
+        mock_data = [
+            {
+                "protocol": Protocols.HTTPS.value,  # Protocol in enum value
+                "asset": "asset1",
+                "success": True,
+                "alert": False,
+                "timestamp": "2025-01-01T00:00:00",
+                "deviation": None,
+                "error_message": None,
+                "latency": Duration.from_seconds(50).to_dto_json(DurationUnits.Second),  # Example latency in seconds
+                "upload_bandwidth": BitRate.from_bits_per_second(1000).to_dto_json(BitRateUnits.MegabitPerSecond),  # Example upload bandwidth
+                "download_bandwidth": BitRate.from_bits_per_second(2000).to_dto_json(BitRateUnits.MegabitPerSecond),  # Example download bandwidth
+            },
+            {
+                "protocol": Protocols.HTTP.value,  # Protocol in enum value
+                "asset": "asset2",
+                "success": False,
+                "alert": True,
+                "timestamp": "2025-01-01T00:00:00",
+                "deviation": Duration.from_seconds(10).to_dto_json(DurationUnits.Second),  # Example deviation
+                "error_message": "Timeout error",
+                "latency": Duration.from_seconds(60).to_dto_json(DurationUnits.Second),  # Example latency in seconds
+                "upload_bandwidth": BitRate.from_bits_per_second(500).to_dto_json(BitRateUnits.MegabitPerSecond),  # Example upload bandwidth
+                "download_bandwidth": BitRate.from_bits_per_second(1000).to_dto_json(BitRateUnits.MegabitPerSecond),  # Example download bandwidth
+            },
+            {
+                "protocol": Protocols.HTTP.value,  # Protocol in enum value
+                "asset": "asset1",
+                "success": True,
+                "alert": False,
+                "timestamp": "2025-01-01T00:00:00",
+                "deviation": None,
+                "error_message": None,
+                "latency": Duration.from_seconds(40).to_dto_json(DurationUnits.Second),  # Example latency in seconds
+                "upload_bandwidth": BitRate.from_bits_per_second(2000).to_dto_json(BitRateUnits.MegabitPerSecond),  # Example upload bandwidth
+                "download_bandwidth": BitRate.from_bits_per_second(4000).to_dto_json(BitRateUnits.MegabitPerSecond),  # Example download bandwidth
+            }
+        ]
+        self.mock_jsonl_handler.iterate.return_value = mock_data
+
+        # Call get_last_results with a limit (last_lines=2)
+        results = self.store.get_last_results(2)
+
+        # Assert that the correct number of results is returned
+        self.assertEqual(len(results), 2)
+
+        # check that the first result is the last one in the mock data
+        self.assertEqual(results[0].protocol, Protocols.HTTPS)
+
+    def test_get_last_results_empty(self):
+        """ Test get_last_results with empty data """
+        # Mock empty data
+        self.mock_jsonl_handler.iterate.return_value = []
+
+        # Call get_last_results
+        results = self.store.get_last_results(2)
+
+        # Assert that the result is empty
+        self.assertEqual(len(results), 0)
 
 
 if __name__ == '__main__':

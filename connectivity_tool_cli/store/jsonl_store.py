@@ -16,3 +16,11 @@ class JsonlStore(StoreBase):
                     and result['asset'] == curr_result.asset:
                 return ConnResult.from_dict(result)
         return None
+
+    def get_last_results(self, last_lines: int | None) -> [ConnResult]:
+        results = []
+        for idx, result in enumerate(self.jsonl_handler.iterate(reverse=True)):
+            results.append(ConnResult.from_dict(result))
+            if last_lines is not None and idx == last_lines - 1:
+                break
+        return results
