@@ -40,6 +40,8 @@ jobs:
       - name: 📊 Upload coverage to Coveralls
         run: |
           coveralls  # Send coverage data to Coveralls
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for authentication 🔑
 
       # Step 6️⃣: Bump the version automatically 🔄
       - name: 🔼 Bump Version
