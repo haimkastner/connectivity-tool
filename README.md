@@ -37,7 +37,7 @@ pip install connectivity_tool
 ```
 
 > **Note:** The CLI also available as a Docker image, see [Docker Hub](https://hub.docker.com/r/haimkastner/connectivity-tool)
-> For more information, see the [Docker](https://github.com/haimkastner/unitsnet-py/blob/main/docker) section
+> For more information, see the [Docker](https://github.com/haimkastner/connectivity-tool/blob/main/DOCKER.md) section
 ## 🚀 Getting started
 
 Before starting, run the help command to understand how to pass the operation's parameters and payload with all the available options.
@@ -107,7 +107,7 @@ Run `connectivity_tool --output-store 5` to print to stdout the last 5 result/s.
 
 The  store file is `./store_data/conn_tool_store.jsonl` as default and can be changed by `--store` flag.
 
-For Docker see the [Docker](https://github.com/haimkastner/unitsnet-py/blob/main/docker) section
+For Docker see the [Docker](https://github.com/haimkastner/connectivity-tool/blob/main/DOCKER.md) section
 
 ## 🔍 Troubleshooting and logging
 
@@ -127,7 +127,7 @@ connectivity_tool --verbos
 In case of an issue or a bug found in the CLI, please open an [issue](https://github.com/haimkastner/connectivity-tool/issues) 
 
 ## 🛠️ Development & Contribution
-See the [Development](https://github.com/haimkastner/unitsnet-py/blob/main/DEVELOPMENT.md) section for more information
+See the [Development](https://github.com/haimkastner/connectivity-tool/blob/main/DEVELOPMENT.md) section for more information
 
 ## 📝 License
 The Connectivity Tool CLI is licensed under the [MIT License](./LICENSE)

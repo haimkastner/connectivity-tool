@@ -14,7 +14,7 @@ with open((this_directory / 'requirements.txt')) as f:
 
 cli_build_module = f'''
 def print_cli_build_info() -> str:
-    return f'cli_build: "{os.environ.get('BUILD_JOB_ID', '??')}", cli_version: "{version}", released_on="{datetime.now().isoformat()}")'
+    return f'cli_version: "{version}", released_on="{datetime.now().isoformat()}")'
 '''
 
 directory = os.path.join('connectivity_tool_cli', 'generated_build')
