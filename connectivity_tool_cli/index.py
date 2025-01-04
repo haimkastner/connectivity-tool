@@ -78,6 +78,7 @@ def main_function():
         print(f'    {print_cli_build_info()}')
 
     if args.generate_path:
+        logger.info(f'Generating example suite file at {args.generate_path}')
         generate_example_suite_file(args.generate_path, SuiteFormats(args.type_format))
         return
 
@@ -116,7 +117,9 @@ def main_function():
             print(f'''(Test #{inx + 1}) {result.asset} {result.protocol.value} connectivity test {'succeeded' if result.success else "failed"}''')
     except Exception as e:
         logger.critical(f'Fatal error during connectivity check {str(e)}')
+        sys.exit(1)
 
+    logger.info('Finished running the connectivity test suite')
 
 if __name__ == "__main__":
     main_function()

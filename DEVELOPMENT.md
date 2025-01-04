@@ -29,7 +29,7 @@ Set `./connectivity_tool_cli` as the working directory and run directly or via I
 ## Test the CLI
 
 ```bash
- python -m unittest discover -s tests
+python -m unittest discover -s tests
 ```
 
 
@@ -55,4 +55,16 @@ After doing the change using PIP tool, run the following command to update the `
 
 ```bash
 pip freeze > requirements.txt
+```
+
+## Build the Docker Image
+
+Build it locally by the command:
+```bash
+docker build -t connectivity-tool-local:latest .
+```
+
+Run the Docker container:
+```bash
+docker run connectivity-tool-local --help
 ```

@@ -1,22 +1,32 @@
 # Running Connectivity Tool CLL as a Docker Container
 
-## Pull the Docker Image
+### Pull the Docker Image
 
 ```bash
 docker pull haimkastner/connectivity-tool
 ```
 
-## Run the Docker Container
+### Run the Docker Container
 
 ```bash
-docker run --rm haimkastner/connectivity-tool --help
+docker run haimkastner/connectivity-tool --help
 ```
 
-## Store data
+## Container interaction with host file-system
 
-As default the CLI will store the JSONL store file under `connectivity-tool` in the Docker data root directory.
+As Docker containers are isolated from the host file-system, in order to interact with the host file-system, the container should be run with the `-v` option.
 
-The exact directory shown at `docker info | grep "Docker Root Dir"`. 
+### Generate Test Suite File
+```bash
+docker run -v ./config:/app/config haimkastner/connectivity-tool --generate-path ./config
+```
 
-To store the JSONL file in a different directory, mount the directory to the container and use the -f option to specify the file name.
+### Running the CLI with the generated test suite file
+```bash
+docker run -v ./config:/app/config haimkastner/connectivity-tool -f ./test_suite.yaml
+```
 
+### Running the CLI with the test suite file in the container and the store data in the host file-system
+```bash
+docker run -v ./store_data:/app/store_data -v ./config:/app/config haimkastner/connectivity-tool -f ./config/test_suite.yaml
+```

@@ -1,5 +1,7 @@
 import os
 
+from connectivity_tool_cli.common.logger import logger
+
 from connectivity_tool_cli.common.interfances import SuiteFormats
 from connectivity_tool_cli.common.utils import yaml_to_json
 
@@ -31,11 +33,14 @@ def generate_example_suite_file(path: str, format_type: SuiteFormats):
 
     # Create the file
     file_path = os.path.join(path, 'test_suite.' + format_type.value)
+    logger.info(f'Creating example suite file at: {file_path}')
     with open(file_path, 'w') as f:
         if format_type == SuiteFormats.YAML:
             f.write(yaml_example)
+            logger.info('Example YAML suite file created successfully')
             return
 
         if format_type == SuiteFormats.JSON:
             f.write(yaml_to_json(yaml_example))
+            logger.info('Example JSON suite file created successfully')
             return
