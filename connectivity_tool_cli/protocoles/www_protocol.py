@@ -21,9 +21,8 @@ class WWWProtocol(Protocol, ABC):
         elapsed_time = time.time() - start_time
 
         if elapsed_time > 0:
-            bandwidth = (data_size / elapsed_time) / 1024  # Bandwidth in KB/s
-            return BitRate.from_kilobits_per_second(bandwidth)
-        return BitRate.from_kilobits_per_second(0)
+            return BitRate.from_bytes_per_second((data_size / elapsed_time))
+        return BitRate.from_bytes_per_second(0)
 
     def __check_download_bandwidth(self, url, chunk_size=1024) -> BitRate:
         start_time = time.time()
@@ -38,9 +37,8 @@ class WWWProtocol(Protocol, ABC):
         response.close()
 
         if elapsed_time > 0:
-            bandwidth = (total_data / elapsed_time) / 1024  # Bandwidth in KB/s
-            return BitRate.from_kilobits_per_second(bandwidth)
-        return BitRate.from_kilobits_per_second(0)
+            return BitRate.from_bytes_per_second((total_data / elapsed_time))
+        return BitRate.from_bytes_per_second(0)
 
     def __www_check(self, conn_test_suite: ConnTestSuiteWWW, curr_results: ConnResult):
         try:

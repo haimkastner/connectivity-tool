@@ -69,7 +69,6 @@ def main_function():
     if info:
         print('Connectivity Tool CLI by Haim Kastner <hello@haim-kastner.com>')
         print(f'    {print_cli_build_info()}')
-        print()
         return
 
     setup_logger(verbose)
