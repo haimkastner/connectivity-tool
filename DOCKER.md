@@ -1,4 +1,12 @@
-# Running Connectivity Tool CLL as a Docker Container
+# 🚀 Running Connectivity Tool CLI as a Docker Container
+
+## 📝 Overview
+
+This guide provides clear instructions for running the **Connectivity Tool CLI** as a Docker container.
+
+👉 For the full CLI documentation, check out the [README.md](https://github.com/haimkastner/connectivity-tool/blob/main/README.md).
+
+---
 
 ### Pull the Docker Image
 
