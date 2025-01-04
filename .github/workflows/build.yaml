@@ -32,6 +32,8 @@ jobs:
           pip install -r requirements.txt
           echo "Installing the connectivity tool 🚀..."
           pip install .
+          echo "showing the installed packages"
+          connectivity_tool -i
 
 
       # Step 4️⃣: Run unit tests 🧪
