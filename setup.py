@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 import os
 from datetime import datetime
 
-version = '1.0.10'
+version = '1.0.11'
 
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text(encoding='utf-8')
