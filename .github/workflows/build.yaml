@@ -26,6 +26,9 @@ jobs:
       - name: 🏗️ Build Project
         run: |
           echo "Installing dependencies 📦..."
+          echo $BUILD_JOB_ID
+          echo "The Run ID is: ${{ github.run_id }}"
+          
           pip install -r requirements.txt
           echo "Installing the connectivity tool 🚀..."
           pip install .
@@ -100,21 +103,9 @@ jobs:
           tags: |
             haimkastner/connectivity-tool:${{ steps.update_version.outputs.VERSION }}
             haimkastner/connectivity-tool:latest
-
-      - name: 📖 Read README.md and Update Docker Hub Description
-        run: |
-          # Read the README.md content and trim to a manageable size if needed
-          README_CONTENT=$(cat DOCKER.md)
-        
-          # Escape content (handling special characters)
-          ESCAPED_CONTENT=$(echo "$README_CONTENT" | jq -Rs .)
-
-          # Update Docker Hub repository description using Docker Hub API
-          curl -X PUT "https://hub.docker.com/v2/repositories/haimkastner/connectivity-tool/" \
-            -H "Authorization: Bearer ${{ secrets.DOCKER_API_KEY }}" \
-            -H "Content-Type: application/json" \
-            -d "{\"description\": $ESCAPED_CONTENT}"
-
+          labels: |
+            org.opencontainers.image.description=$(cat DOCKER.md)
+            org.opencontainers.image.authors="Haim Kastner"
 
       # Step 🔟: Create a GitHub release 🌟
       - name: 🏷️ Create Release
