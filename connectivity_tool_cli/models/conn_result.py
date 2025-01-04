@@ -47,10 +47,10 @@ class ConnResult(ABC):
             obj['latency'] = self.latency.to_dto_json(DurationUnits.Second)
 
         if self.upload_bandwidth:
-            obj['upload_bandwidth'] = self.upload_bandwidth.to_dto_json(BitRateUnits.MegabitPerSecond)
+            obj['upload_bandwidth'] = self.upload_bandwidth.to_dto_json(BitRateUnits.MegabytePerSecond)
 
         if self.download_bandwidth:
-            obj['download_bandwidth'] = self.download_bandwidth.to_dto_json(BitRateUnits.MegabitPerSecond)
+            obj['download_bandwidth'] = self.download_bandwidth.to_dto_json(BitRateUnits.MegabytePerSecond)
         return obj
 
     @staticmethod

@@ -29,15 +29,21 @@ jobs:
           echo "showing the installed packages"
           connectivity_tool -i
 
-
       # Step 4️⃣: Run unit tests 🧪
       - name: 🧹 Test Units
         run: |
           echo "Running tests 🔍..."
-          python -m unittest discover tests
+          pip install coverage coveralls  # Install coverage and coveralls
+          coverage run -m unittest discover tests  # Run tests with coverage
 
+      # Step 5️⃣: Upload coverage to Coveralls 📝
+      - name: 📊 Upload coverage to Coveralls
+        run: |
+          coveralls  # Send coverage data to Coveralls
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for authentication 🔑
 
-      # Step 5️⃣: Bump the version automatically 🔄
+      # Step 6️⃣: Bump the version automatically 🔄
       - name: 🔼 Bump Version
         if: github.ref == 'refs/heads/main' # Run only on the main branch
         id: update_version
@@ -51,9 +57,8 @@ jobs:
           echo "Updating setup.py with version: $NEXT_VERSION ✨..."
           sed -i "s/version = '.*'/version = '$NEXT_VERSION'/g" setup.py
           echo "VERSION=$NEXT_VERSION" >> $GITHUB_OUTPUT
-      
 
-      # Step 6️⃣: Retrieve version info for release notes 📜
+      # Step 7️⃣: Retrieve version info for release notes 📜
       - name: 📝 Get Version Info
         id: version_info
         run: |
@@ -61,8 +66,7 @@ jobs:
           body=$(git log -1 --pretty=%B | sed -n '1p')
           echo "BODY=$body" >> $GITHUB_OUTPUT
 
-
-      # Step 7️⃣: Commit and push the new version 🖊️
+      # Step 8️⃣: Commit and push the new version 🖊️
       - name: 💾 Commit and Push Version
         if: github.ref == 'refs/heads/main'
         uses: devops-infra/action-commit-push@master
@@ -70,7 +74,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           commit_message: Update to version ${{ steps.update_version.outputs.VERSION }} [skip-ci]
 
-      # Step 8️⃣: Publish to PyPI 📦
+      # Step 9️⃣: Publish to PyPI 📦
       - name: 🛫 Publish CLI to PyPI
         if: github.ref == 'refs/heads/main' # Ensure publishing happens only on the main branch
         env:
@@ -80,9 +84,8 @@ jobs:
           pip install twine
           python setup.py sdist
           twine upload dist/* -u __token__ -p $API_KEY
-      
 
-      # Step 9️⃣: Build and Publish Docker Image 🐳
+      # Step 🔟: Build and Publish Docker Image 🐳
       - name: 🔑 Log in to Docker Hub 🐳
         if: github.ref == 'refs/heads/main' # Ensure publishing happens only on the main branch
         uses: docker/login-action@v3
@@ -102,7 +105,7 @@ jobs:
             org.opencontainers.image.description=$(cat DOCKER.md)
             org.opencontainers.image.authors="Haim Kastner"
 
-      # Step 🔟: Create a GitHub release 🌟
+      # Step 1️⃣1️⃣: Create a GitHub release 🌟
       - name: 🏷️ Create Release
         if: github.ref == 'refs/heads/main'
         id: create_release
