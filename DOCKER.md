@@ -31,7 +31,7 @@ docker run -v ./config:/app/config haimkastner/connectivity-tool --generate-path
 
 ### Running the CLI with the generated test suite file
 ```bash
-docker run -v ./config:/app/config haimkastner/connectivity-tool -f ./test_suite.yaml
+docker run -v ./config:/app/config haimkastner/connectivity-tool -f ./config/test_suite.yaml
 ```
 
 ### Running the CLI with the test suite file in the container and the store data in the host file-system
