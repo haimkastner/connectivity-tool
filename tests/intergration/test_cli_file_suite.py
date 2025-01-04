@@ -22,17 +22,16 @@ class E2ETestFileSuite(ConnTestCase):
     @patch('sys.argv', [
         'index.py',
         '-f',
-        str(current_dir / test_dir / "test_suite.yaml"),
+        str(current_dir / test_dir / "1test_suite.yaml"),
         '-s',
-        str(current_dir / test_dir / "test_suite.jsonl")
+        str(current_dir / test_dir / "1test_suite.jsonl")
     ])
     @patch("builtins.print")  # Mock the built-in print function
     def test_cli_run_full_test(self, mock_print: Mock):
-        """Test the `--generate-path` option."""
         # Define the test directory and file path
         path = current_dir / test_dir # Path to the test directory
-        file_path = path / "test_suite.yaml"
-        store_path = path / "test_suite.jsonl"
+        file_path = path / "1test_suite.yaml"
+        store_path = path / "1test_suite.jsonl"
         # Create necessary directories if they don't exist
         path.mkdir(parents=True, exist_ok=True)  # Creates 'store_data' if it doesn't exist
 
@@ -41,7 +40,7 @@ class E2ETestFileSuite(ConnTestCase):
         with open(str(store_path), 'w') as file:
             file.write('')
 
-        main_function()
+        self.run_cli()
         first_print = mock_print.call_args_list[0][0]
         self.assertIn('(Test #1)', str(first_print))
         self.assertIn('dns', str(first_print))
@@ -83,19 +82,18 @@ class E2ETestFileSuite(ConnTestCase):
     @patch('sys.argv', [
         'index.py',
         '-f',
-        str(current_dir / test_dir / "test_suite.json"),
+        str(current_dir / test_dir / "2test_suite.json"),
         '-s',
-        str(current_dir / test_dir / "test_suite.jsonl"),
+        str(current_dir / test_dir / "2test_suite.jsonl"),
         '-t',
         'json'
     ])
     @patch("builtins.print")  # Mock the built-in print function
     def test_cli_run_full_test_json(self, mock_print: Mock):
-        """Test the `--generate-path` option."""
         # Define the test directory and file path
         path = current_dir / test_dir # Path to the test directory
-        file_path = path / "test_suite.json"
-        store_path = path / "test_suite.jsonl"
+        file_path = path / "2test_suite.json"
+        store_path = path / "2test_suite.jsonl"
         # Create necessary directories if they don't exist
         path.mkdir(parents=True, exist_ok=True)  # Creates 'store_data' if it doesn't exist
 
@@ -104,7 +102,8 @@ class E2ETestFileSuite(ConnTestCase):
         with open(str(store_path), 'w') as file:
             file.write('')
 
-        main_function()
+        StoreManager._instance = None
+        self.run_cli()
         first_print = mock_print.call_args_list[0][0]
         self.assertIn('(Test #1)', str(first_print))
         self.assertIn('dns', str(first_print))

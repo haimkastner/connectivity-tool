@@ -25,7 +25,7 @@ class E2ETestGenerate(ConnTestCase):
         # Create necessary directories if they don't exist
         path.mkdir(parents=True, exist_ok=True)  # Creates 'store_data' if it doesn't exist
 
-        main_function()
+        self.run_cli()
 
         self.assertTrue(os.path.exists(file_path))
 
@@ -51,7 +51,7 @@ class E2ETestGenerate(ConnTestCase):
         # Create necessary directories if they don't exist
         path.mkdir(parents=True, exist_ok=True)  # Creates 'store_data' if it doesn't exist
 
-        main_function()
+        self.run_cli()
 
         self.assertTrue(os.path.exists(file_path))
 

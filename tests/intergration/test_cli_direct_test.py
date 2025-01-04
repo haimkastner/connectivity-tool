@@ -16,7 +16,7 @@ class E2ETestDirect(ConnTestCase):
     ])
     @patch("builtins.print")  # Mock the built-in print function
     def test_cli_test_dns(self, mock_print: Mock):
-        main_function()
+        self.run_cli()
         mock_print.assert_called()
         # Retrieve the arguments passed to `print`
         first_print = mock_print.call_args_list[0][0]
@@ -31,7 +31,7 @@ class E2ETestDirect(ConnTestCase):
     ])
     @patch("builtins.print")  # Mock the built-in print function
     def test_cli_test_https(self, mock_print: Mock):
-        main_function()
+        self.run_cli()
         mock_print.assert_called()
         # Retrieve the arguments passed to `print`
         first_print = mock_print.call_args_list[0][0]
@@ -46,7 +46,7 @@ class E2ETestDirect(ConnTestCase):
     ])
     @patch("builtins.print")  # Mock the built-in print function
     def test_cli_test_http(self, mock_print: Mock):
-        main_function()
+        self.run_cli()
         mock_print.assert_called()
         # Retrieve the arguments passed to `print`
         first_print = mock_print.call_args_list[0][0]
@@ -60,7 +60,7 @@ class E2ETestDirect(ConnTestCase):
     def test_cli_invalid_protocol(self):
         """Test invalid protocol input."""
         with self.assertRaises(SystemExit) as cm:
-            main_function()
+            self.run_cli()
         self.assertNotEqual(cm.exception.code, 0)
 
 

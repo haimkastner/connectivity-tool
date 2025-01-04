@@ -30,7 +30,7 @@ class E2ETestStore(ConnTestCase):
         # Write data to the file
         with open(path, 'w') as file:
             file.write(store_data)
-        main_function()
+        self.run_cli()
         first_print = mock_print.call_args_list[0][0]
         second_print = mock_print.call_args_list[1][0]
         self.assertIn('"protocol": "http"', str(first_print))
@@ -54,7 +54,7 @@ class E2ETestStore(ConnTestCase):
         # Write data to the file
         with open(path, 'w') as file:
             file.write(store_data)
-        main_function()
+        self.run_cli()
         first_print = mock_print.call_args_list[0][0]
         try:
             second_print = mock_print.call_args_list[1][0]

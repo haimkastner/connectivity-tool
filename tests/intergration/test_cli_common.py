@@ -18,7 +18,7 @@ class E2ETestCommon(ConnTestCase):
     @patch("builtins.print")  # Mock the built-in print function
     def test_cli_info_print(self, mock_print: Mock):
         """Test the `--info` option."""
-        main_function()
+        self.run_cli()
         mock_print.assert_called()
         # Retrieve the arguments passed to `print`
         first_print = mock_print.call_args_list[0][0]
@@ -34,7 +34,7 @@ class E2ETestCommon(ConnTestCase):
     @patch("connectivity_tool_cli.common.logger.logging.Logger.info")
     @patch("builtins.print")  # Mock the built-in print function
     def test_cli_verbose(self, mock_print: Mock, mock_logger_info: Mock):
-        main_function()
+        self.run_cli()
         mock_print.assert_called()
         # Retrieve the arguments passed to `print`
         first_print = mock_print.call_args_list[0][0]
@@ -53,7 +53,7 @@ class E2ETestCommon(ConnTestCase):
         '--verbose'
     ])
     def test_cli_verbose_on(self):
-        main_function()
+        self.run_cli()
         self.assertEqual(logger.getEffectiveLevel(), logging.INFO)
 
     @patch('sys.argv', [
@@ -61,7 +61,7 @@ class E2ETestCommon(ConnTestCase):
         '-o 1',
     ])
     def test_cli_verbose_off(self):
-        main_function()
+        self.run_cli()
         self.assertEqual(logger.getEffectiveLevel(), logging.ERROR)
 
 
