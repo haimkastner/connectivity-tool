@@ -11,6 +11,7 @@ Coming soon :)
 [![GitHub stars](https://img.shields.io/github/stars/haimkastner/connectivity-tool.svg?style=social&label=Star)](https://github.com/haimkastner/connectivity-tool/stargazers) -->
 
 [![connectivity-tool](https://github.com/haimkastner/connectivity-tool/actions/workflows/build.yaml/badge.svg?branch=main)](https://github.com/haimkastner/connectivity-tool/actions/workflows/build.yaml)
+[![Coverage Status](https://coveralls.io/repos/github/haimkastner/connectivity-tool/badge.svg?branch=main)](https://coveralls.io/github/haimkastner/connectivity-tool?branch=main)
 
 
 Welcome to the Connectivity Tool CLI, a command-line interface for network connectivity operations.
