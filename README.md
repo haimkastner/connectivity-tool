@@ -75,7 +75,7 @@ suite:
     test_download_bandwidth: true # Optional for HTTP/HTTPS only - default is false
 ```
 
-The `json` format is also supported.
+The `json` format is also supported as yaml is the default format, set also `-t json` argument to specify format.
 ```json
 {
   "suite": [
@@ -112,7 +112,7 @@ For Docker see the [Docker](https://github.com/haimkastner/connectivity-tool/blo
 
 ## 🔍 Troubleshooting and logging
 
-The full version and build info of the SDK is available by `--info` see example:
+The full version and build info of the CLI is available by `--info` see example:
 ```bash
 connectivity_tool --info
 ```
