@@ -38,7 +38,7 @@ class E2ETestFileSuite(ConnTestCase):
         with open(str(file_path), 'w') as file:
             file.write(yaml_example)
         with open(str(store_path), 'w') as file:
-            file.write('')
+            file.write('''{"protocol":"https","success":true,"alert":false,"timestamp":"2025-01-04T20:05:52.984939","asset":"https://www.facebook.com","latency":{"value":0.000000000000009,"unit":"Second"}}\n''')
 
         self.run_cli()
         first_print = mock_print.call_args_list[0][0]
@@ -50,10 +50,11 @@ class E2ETestFileSuite(ConnTestCase):
         self.assertIn('(Test #4)', str(forth_print))
         self.assertIn('https', str(forth_print))
         self.assertIn('https://www.facebook.com', str(forth_print))
+        self.assertIn('with a deviation of', str(forth_print))
 
         # Get all results...
         store_lines = StoreManager.store().get_last_results(None)
-        self.assertEqual(4, len(store_lines))
+        self.assertEqual(5, len(store_lines))
 
         ## Last one with bandwidth check
         data = store_lines[0].to_dics()

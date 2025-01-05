@@ -62,7 +62,7 @@ class E2ETestCommon(ConnTestCase):
     ])
     def test_cli_verbose_off(self):
         self.run_cli()
-        self.assertEqual(logger.getEffectiveLevel(), logging.ERROR)
+        self.assertEqual(logger.getEffectiveLevel(), logging.CRITICAL)
 
 
 if __name__ == "__main__":

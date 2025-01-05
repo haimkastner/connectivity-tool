@@ -2,6 +2,8 @@ import argparse
 import json
 import sys
 
+from unitsnet_py.units.duration import DurationUnits
+
 from connectivity_tool_cli.common.example_generator import generate_example_suite_file
 from connectivity_tool_cli.common.input_loader import parse_input
 from connectivity_tool_cli.common.interfances import Protocols, SuiteFormats
@@ -113,7 +115,10 @@ def main_function():
             # Log the result
             StoreManager.store().log_results(result)
             logger.info(f'Connectivity check result: {result.to_dics()}')
-            print(f'''(Test #{inx + 1}) {result.asset} {result.protocol.value} connectivity test {'succeeded' if result.success else "failed"}''')
+            complete_message = f'''(Test #{inx + 1}) {result.asset} {result.protocol.value} connectivity test {'succeeded' if result.success else "failed"} '''
+            if result.deviation is not None:
+                complete_message = complete_message + f'with a deviation of {result.deviation.to_string(DurationUnits.Millisecond)} from the last test'
+            print(complete_message)
     except Exception as e:
         logger.critical(f'Fatal error during connectivity check {str(e)}')
         sys.exit(1)

@@ -5,7 +5,7 @@ logger = logging.getLogger("ConnectivityTool")
 # Configure logging
 def setup_logger(verbose: bool):
     global logger
-    level = logging.INFO if verbose else logging.ERROR
+    level = logging.INFO if verbose else logging.CRITICAL
     logger.setLevel(level)
 
     ## TODO: Add a file handler to log messages to a file
